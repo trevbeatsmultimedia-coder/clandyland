@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLANDYLAND - The Most Secret Game in the World™</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dark: #8b6914;
+    --crimson: #8b1a2a;
+    --crimson-light: #c0253a;
+    --black: #0a0a0f;
+    --black-mid: #12121a;
+    --black-card: #1a1a28;
+    --parchment: #f5e8c0;
+    --parchment-dark: #d4c08a;
+    --teal: #1a6b6b;
+    --shadow-gold: rgba(201,168,76,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--parchment);
+    font-family: 'Crimson Text', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(139,26,42,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(201,168,76,0.02) 40px,
+        rgba(201,168,76,0.02) 41px
+      );
+  }
+
+  /* ===== SCREENS ===== */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ===== TITLE SCREEN ===== */
+  #title-screen {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .title-ornament {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .floating-eye {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.12;
+    animation: floatEye 8s ease-in-out infinite;
+  }
+
+  @keyframes floatEye {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+  }
+
+  .title-badge {
+    background: radial-gradient(circle at 30% 30%, #2a2a10, #0a0a0f);
+    border: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 3rem 4rem;
+    max-width: 700px;
+    position: relative;
+    box-shadow:
+      0 0 60px rgba(201,168,76,0.2),
+      inset 0 0 40px rgba(0,0,0,0.5);
+  }
+
+  .title-badge::before, .title-badge::after {
+    content: '';
+    position: absolute;
+    border: 1px solid var(--gold-dark);
+    inset: 10px;
+    pointer-events: none;
+  }
+
+  .corner-deco {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+  }
+  .corner-deco.tl { top: 6px; left: 6px; border-top-width: 2px; border-left-width: 2px; }
+  .corner-deco.tr { top: 6px; right: 6px; border-top-width: 2px; border-right-width: 2px; }
+  .corner-deco.bl { bottom: 6px; left: 6px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner-deco.br { bottom: 6px; right: 6px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .eye-svg {
+    width: 80px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    animation: eyePulse 3s ease-in-out infinite;
+  }
+
+  @keyframes eyePulse {
+    0%, 100% { filter: drop-shadow(0 0 5px var(--gold)); }
+    50% { filter: drop-shadow(0 0 20px var(--gold-light)); }
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 900;
+    color: var(--gold-light);
+    text-shadow:
+      0 0 30px rgba(201,168,76,0.6),
+      2px 2px 4px rgba(0,0,0,0.8);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .sub-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .title-divider {
+    width: 80%;
+    margin: 1rem auto;
+    border: none;
+    border-top: 1px solid var(--gold-dark);
+    position: relative;
+  }
+
+  .title-divider::after {
+    content: '✦';
+    position: absolute;
+    top: -0.6em;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--black-mid);
+    padding: 0 0.5rem;
+    color: var(--gold);
+    font-size: 0.8rem;
+  }
+
+  .tagline {
+    font-style: italic;
+    color: var(--parchment-dark);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .player-setup {
+    margin-bottom: 2rem;
+  }
+
+  .player-setup label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .player-setup input {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dark);
+    color: var(--parchment);
+    padding: 0.6rem 1rem;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .player-setup input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 10px var(--shadow-gold);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+    color: var(--black);
+    border: none;
+    padding: 0.9rem 2.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-primary:hover::after { left: 100%; }
+  .btn-primary:hover {
+    box-shadow: 0 0 25px var(--shadow-gold);
+    transform: translateY(-2px);
+  }
+
+  .warning-seal {
+    font-size: 0.75rem;
+    color: var(--gold-dark);
+    margin-top: 1.5rem;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== GAME SCREEN ===== */
+  #game-screen {
+    flex-direction: row;
+    min-height: 100vh;
+  }
+
+  /* Board Panel */
+  .board-panel {
+    flex: 0 0 340px;
+    background: linear-gradient(180deg, #0d0d15 0%, #0a0a10 100%);
+    border-right: 2px solid var(--gold-dark);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .board-title {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--gold);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px var(--shadow-gold);
+  }
+
+  .board-subtitle {
+    font-size: 0.75rem;
+    color: var(--gold-dark);
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+  }
+
+  /* Degree Path */
+  .degree-path {
+    width: 100%;
+    position: relative;
+  }
+
+  .degree-row {
+    display: flex;
+    margin-bottom: 4px;
+    gap: 4px;
+  }
+
+  .degree-row.reverse { flex-direction: row-reverse; }
+
+  .degree-cell {
+    flex: 1;
+    min-width: 0;
+    height: 36px;
+    border: 1px solid #2a2a3a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    background: #12121c;
+  }
+
+  .degree-cell .deg-num {
+    font-weight: 700;
+    color: var(--gold-dark);
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  .degree-cell .deg-name {
+    font-size: 0.42rem;
+    color: #555;
+    text-align: center;
+    line-height: 1.1;
+    position: absolute;
+    bottom: 2px;
+    left: 1px; right: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .degree-cell.completed {
+    background: linear-gradient(135deg, #1a1a08, #2a2a10);
+    border-color: var(--gold-dark);
+  }
+
+  .degree-cell.completed .deg-num { color: var(--gold); }
+  .degree-cell.completed .deg-name { color: var(--gold-dark); }
+
+  .degree-cell.current {
+    background: linear-gradient(135deg, #2a1a08, #3a2510);
+    border-color: var(--gold);
+    box-shadow: 0 0 8px var(--shadow-gold), inset 0 0 6px rgba(201,168,76,0.1);
+    animation: cellPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes cellPulse {
+    0%, 100% { box-shadow: 0 0 8px var(--shadow-gold), inset 0 0 6px rgba(201,168,76,0.1); }
+    50% { box-shadow: 0 0 20px var(--shadow-gold), inset 0 0 12px rgba(201,168,76,0.2); }
+  }
+
+  .degree-cell.current .deg-num { color: var(--gold-light); }
+
+  .player-token {
+    position: absolute;
+    top: 2px; right: 2px;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  /* Stats */
+  .stat-bar {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--gold-dark);
+    border-radius: 2px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-dark);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .stat-value {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .current-degree-badge {
+    background: linear-gradient(135deg, var(--crimson), #5a0f1a);
+    border: 1px solid var(--gold-dark);
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .cdb-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    color: var(--gold-dark);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .cdb-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-light);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-top: 0.2rem;
+  }
+
+  /* Main Panel */
+  .main-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+
+  /* Question Card */
+  .question-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .degree-pip {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 35% 35%, var(--gold-dark), #3a2a00);
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 15px var(--shadow-gold);
+  }
+
+  .degree-pip-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .degree-pip-sym {
+    font-size: 0.6rem;
+    color: var(--gold-dark);
+    font-family: 'Cinzel', serif;
+  }
+
+  .question-meta {
+    flex: 1;
+  }
+
+  .question-type-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .type-legit { background: var(--teal); color: var(--parchment); }
+  .type-clandy { background: var(--crimson); color: var(--parchment); }
+  .type-trivia { background: #3a3a10; color: var(--gold); border: 1px solid var(--gold-dark); }
+
+  .question-degree-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .question-card {
+    background: linear-gradient(135deg, #15151f, #1a1a28);
+    border: 1px solid var(--gold-dark);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .question-card::before {
+    content: '◆';
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--gold);
+    background: var(--black-mid);
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .question-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--parchment);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .answer-btn {
+    background: linear-gradient(135deg, #1a1a28, #12121c);
+    border: 1px solid #2a2a3a;
+    color: var(--parchment);
+    padding: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    position: relative;
+  }
+
+  .answer-btn .answer-letter {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .answer-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #2a2a3a, #1a1a2a);
+    transform: translateX(3px);
+    box-shadow: 0 0 10px rgba(201,168,76,0.2);
+  }
+
+  .answer-btn.correct {
+    background: linear-gradient(135deg, #0a2a0a, #0f3a0f);
+    border-color: #4a9a4a;
+    color: #90d090;
+  }
+
+  .answer-btn.wrong {
+    background: linear-gradient(135deg, #2a0a0a, #3a0f0f);
+    border-color: var(--crimson-light);
+    color: #d08080;
+  }
+
+  .answer-btn:disabled { cursor: default; }
+
+  /* Result */
+  .result-panel {
+    display: none;
+    background: linear-gradient(135deg, #0d0d15, #15151f);
+    border: 1px solid var(--gold-dark);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-panel.show { display: block; }
+
+  .result-verdict {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .result-verdict.correct-verdict { color: #6dd06d; }
+  .result-verdict.wrong-verdict { color: var(--crimson-light); }
+
+  .result-explanation {
+    color: var(--parchment-dark);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .result-flavor {
+    font-style: italic;
+    color: var(--gold-dark);
+    font-size: 0.85rem;
+    border-top: 1px solid #2a2a3a;
+    padding-top: 0.75rem;
+  }
+
+  .btn-next {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.7rem 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: block;
+    margin-top: 1rem;
+  }
+
+  .btn-next:hover {
+    background: var(--gold);
+    color: var(--black);
+    box-shadow: 0 0 15px var(--shadow-gold);
+  }
+
+  /* Progress Bar */
+  .progress-section {
+    margin-bottom: 1rem;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .progress-bar-bg {
+    height: 6px;
+    background: #1a1a28;
+    border: 1px solid #2a2a3a;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+    transition: width 0.5s ease-out;
+    position: relative;
+  }
+
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 20px; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Victory Screen */
+  #victory-screen {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .victory-container {
+    max-width: 700px;
+    background: linear-gradient(135deg, #0d0d15, #15150a);
+    border: 3px solid var(--gold);
+    padding: 3rem;
+    position: relative;
+    animation: victoryReveal 1s ease-out;
+  }
+
+  @keyframes victoryReveal {
+    from { opacity: 0; transform: scale(0.9) rotateY(-5deg); }
+    to { opacity: 1; transform: scale(1) rotateY(0); }
+  }
+
+  .victory-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(201,168,76,0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  .victory-degree {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--crimson-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .certificate {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid var(--gold-dark);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--parchment-dark);
+  }
+
+  .final-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .final-stat {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dark);
+    padding: 0.75rem;
+  }
+
+  .final-stat-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    color: var(--gold);
+  }
+
+  .final-stat-lbl {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Scroll decoration */
+  .scroll-deco {
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--black-card), #1a1a28);
+    border: 1px solid var(--gold);
+    color: var(--parchment);
+    padding: 1rem 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    z-index: 1000;
+    transform: translateX(calc(100% + 30px));
+    transition: transform 0.3s;
+    box-shadow: 0 0 20px var(--shadow-gold);
+    max-width: 300px;
+  }
+
+  .toast.show { transform: translateX(0); }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    #game-screen { flex-direction: column; }
+    .board-panel { flex: none; width: 100%; border-right: none; border-bottom: 2px solid var(--gold-dark); max-height: 200px; overflow-x: auto; overflow-y: hidden; flex-direction: row; align-items: flex-start; padding: 0.75rem; }
+    .degree-path { width: auto; min-width: 600px; }
+    .degree-row { margin-bottom: 2px; }
+    .answers-grid { grid-template-columns: 1fr; }
+    .final-stats { grid-template-columns: 1fr 1fr 1fr; }
+    .board-title, .board-subtitle, .stat-bar, .current-degree-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TITLE SCREEN -->
+<div id="title-screen" class="screen active">
+  <div class="title-ornament">
+    <div class="floating-eye" style="top:10%;left:5%;animation-delay:0s;">👁️</div>
+    <div class="floating-eye" style="top:20%;right:8%;animation-delay:1.5s;">⧫</div>
+    <div class="floating-eye" style="bottom:15%;left:10%;animation-delay:3s;">👁️</div>
+    <div class="floating-eye" style="bottom:25%;right:5%;animation-delay:4.5s;">⧫</div>
+    <div class="floating-eye" style="top:50%;left:2%;animation-delay:2s;font-size:1.5rem;">✦</div>
+    <div class="floating-eye" style="top:60%;right:3%;animation-delay:6s;font-size:1.5rem;">✦</div>
+  </div>
+
+  <div class="title-badge">
+    <div class="corner-deco tl"></div>
+    <div class="corner-deco tr"></div>
+    <div class="corner-deco bl"></div>
+    <div class="corner-deco br"></div>
+
+    <svg class="eye-svg" viewBox="0 0 100 60" fill="none">
+      <path d="M5 30 Q50 5 95 30 Q50 55 5 30Z" fill="#1a1a10" stroke="#c9a84c" stroke-width="2"/>
+      <circle cx="50" cy="30" r="15" fill="#8b1a2a" stroke="#c9a84c" stroke-width="1.5"/>
+      <circle cx="50" cy="30" r="7" fill="#0a0a0f"/>
+      <circle cx="54" cy="27" r="2.5" fill="#c9a84c" opacity="0.6"/>
+    </svg>
+
+    <div class="main-title">CLANDYLAND</div>
+    <div class="sub-title">The Most Secret Game in the "World"™</div>
+    <hr class="title-divider">
+
+    <p class="tagline">
+      "Founded by the Knights Templar in 1100 B.C., we have jurisdiction in 33 states and Mexico."<br>
+      <span style="font-size:0.85rem;color:var(--gold-dark);">— The Masonic Fraternal Police Department (actual quote)</span>
+    </p>
+
+    <p style="color:var(--parchment-dark);font-size:1rem;margin-bottom:1.5rem;line-height:1.6;">
+      Ascend 34° of increasingly ridiculous clandestine Masonic degrees. Answer trivia about real Masonic tradition — and the spectacular absurdity of fake lodges. Can you reach the <strong style="color:var(--gold);">Grand Exalted Poobah of Perpetual Confusion°</strong>?
+    </p>
+
+    <div class="player-setup">
+      <label>Enter Your Profane Name, Brother/Sister:</label>
+      <input type="text" id="player-name" placeholder="Bro. / Sis. ..." maxlength="25">
+    </div>
+
+    <button class="btn-primary" onclick="startGame()">⧫ RECEIVE THE LIGHT ⧫</button>
+
+    <p class="warning-seal">
+      ⚠ For satirical & educational purposes only ⚠<br>
+      This game respects legitimate Prince Hall & Mainstream Grand Lodges recognized by UGLE.<br>
+      All clandestine content is lovingly researched from actual documented absurdities.
+    </p>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game-screen" class="screen">
+
+  <!-- Board Panel -->
+  <div class="board-panel">
+    <div class="board-title">⧫ The Path of Light ⧫</div>
+    <div class="board-subtitle">1° → 34° · Grand Clandy Rite</div>
+    <div id="degree-path" class="degree-path"></div>
+    <div class="stat-bar">
+      <div class="stat-row">
+        <span class="stat-label">Brother</span>
+        <span class="stat-value" id="sb-name">—</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Correct</span>
+        <span class="stat-value" id="sb-correct">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Streak 🔥</span>
+        <span class="stat-value" id="sb-streak">0</span>
+      </div>
+    </div>
+    <div class="current-degree-badge">
+      <div class="cdb-label">Current Degree</div>
+      <div class="cdb-name" id="current-deg-name">—</div>
+    </div>
+  </div>
+
+  <!-- Main Panel -->
+  <div class="main-panel">
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>ASCENSION PROGRESS</span>
+        <span id="progress-text">0 / 34°</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="question-header">
+      <div class="degree-pip">
+        <div class="degree-pip-num" id="q-degree-num">1</div>
+        <div class="degree-pip-sym">°</div>
+      </div>
+      <div class="question-meta">
+        <div id="q-type-badge" class="question-type-badge type-legit">LEGITIMATE MASONRY</div>
+        <div id="q-degree-name" class="question-degree-name">—</div>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-text" id="question-text">Loading the ancient mysteries...</div>
+      <div class="answers-grid" id="answers-grid"></div>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="result-verdict" id="result-verdict"></div>
+      <div class="result-explanation" id="result-explanation"></div>
+      <div class="result-flavor" id="result-flavor"></div>
+      <button class="btn-next" onclick="nextQuestion()">Advance to the Next Degree →</button>
+    </div>
+  </div>
+</div>
+
+<!-- VICTORY SCREEN -->
+<div id="victory-screen" class="screen">
+  <div class="victory-container">
+    <div class="corner-deco tl"></div>
+    <div class="corner-deco tr"></div>
+    <div class="corner-deco bl"></div>
+    <div class="corner-deco br"></div>
+    <div class="scroll-deco">✦ ◆ ✦</div>
+    <div class="victory-title">CONGRATULATIONS!</div>
+    <div class="victory-degree" id="victory-degree-name"></div>
+    <div class="certificate" id="victory-cert"></div>
+    <div class="final-stats">
+      <div class="final-stat">
+        <div class="final-stat-num" id="v-correct">0</div>
+        <div class="final-stat-lbl">Correct</div>
+      </div>
+      <div class="final-stat">
+        <div class="final-stat-num" id="v-total">34</div>
+        <div class="final-stat-lbl">Questions</div>
+      </div>
+      <div class="final-stat">
+        <div class="final-stat-num" id="v-pct">0%</div>
+        <div class="final-stat-lbl">Accuracy</div>
+      </div>
+    </div>
+    <div class="scroll-deco">✦ ◆ ✦</div>
+    <button class="btn-primary" onclick="restartGame()" style="margin-top:1rem;">🔄 Reinitiate From the East</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  DATA
+// ============================================================
+
+const DEGREES = [
+  { num: 1,  name: "Entered Apprentice of Alleged Antiquity" },
+  { num: 2,  name: "Fellowcraft of Fuzzy Lineage" },
+  { num: 3,  name: "Master Mason of Manufactured Mystery" },
+  { num: 4,  name: "Secret Master of the Self-Constituted" },
+  { num: 5,  name: "Perfect Master of the Raffle Ticket" },
+  { num: 6,  name: "Intimate Secretary of Increasing Dues" },
+  { num: 7,  name: "Provost & Judge of PayPal Petitions" },
+  { num: 8,  name: "Intendant of the Facebook Grand Lodge" },
+  { num: 9,  name: "Elu of the Nine (Dollar Monthly Fee)" },
+  { num: 10, name: "Illustrious Elu of the Fake Fifteen" },
+  { num: 11, name: "Sublime Knight of the Purchased Apron" },
+  { num: 12, name: "Grand Master Architect of Amazon Ritual" },
+  { num: 13, name: "Royal Arch of Alleged Romania Charter" },
+  { num: 14, name: "Perfect Elu of Self-Proclaimed Perfection" },
+  { num: 15, name: "Knight of the East (of the Parking Lot)" },
+  { num: 16, name: "Prince of Jerusalem (Houston Chapter)" },
+  { num: 17, name: "Knight of the East & West End of Nowhere" },
+  { num: 18, name: "Knight Rose Croix of the Rhinestone Collar" },
+  { num: 19, name: "Grand Pontiff of the History Channel Lodge" },
+  { num: 20, name: "Master of the Royal Secret Sauce" },
+  { num: 21, name: "Noachite Knight of the Copied Ritual" },
+  { num: 22, name: "Prince of Libanus & Creator of Grand Lodges" },
+  { num: 23, name: "Chief of the Tabernacle of Territorial Invasion" },
+  { num: 24, name: "Prince of the Tabernacle (Unwarranted)" },
+  { num: 25, name: "Knight of the Brazen Serpent Badge" },
+  { num: 26, name: "Prince of Mercy of the $99 Online Degree" },
+  { num: 27, name: "Knight Commander of the Virtual Temple" },
+  { num: 28, name: "Knight of the Sun (Badge Purchased on Etsy)" },
+  { num: 29, name: "Scottish Knight of St. Andrew (Texas Edition)" },
+  { num: 30, name: "Knight Kadosh of the Clandestine Police Dept." },
+  { num: 31, name: "Inspector Inquisitor of 6,887 Grand Lodges" },
+  { num: 32, name: "Sublime Prince of the Royal Secret Handshake" },
+  { num: 33, name: "Inspector General Honorary (Self-Awarded)" },
+  { num: 34, name: "Grand Exalted Poobah of Perpetual Confusion" },
+];
+
+// Q types: 'legit' = real masonic knowledge, 'clandy' = satirical clandestine stuff, 'trivia' = mixed
+const QUESTIONS = [
+  // 1° EA
+  {
+    type: 'legit',
+    q: "In regular Freemasonry, how many Grand Lodges in the United States are recognized by UGLE as legitimate for Prince Hall Affiliation?",
+    a: ["42 states have recognized Prince Hall Grand Lodges","All 50 states recognize Prince Hall","Only 3 states recognize Prince Hall","Prince Hall is not recognized by UGLE"],
+    correct: 0,
+    explain: "42 Grand Lodges, including DC, have recognized Prince Hall Grand Lodges. A handful of states — including Georgia, Mississippi, and Louisiana — have not yet extended mutual recognition.",
+    flavor: "A handful of Southern states still haven't gotten the memo. Only about 250 years late."
+  },
+  // 2° FC
+  {
+    type: 'clandy',
+    q: "When joining the International Free and Accepted Modern Masons (a clandestine group out of Detroit), one Brother found his monthly dues climbed from $25 to nearly $200/month. The EXTRA fees came from:",
+    a: ["Lodge dues, district fees, and mandatory raffle tickets","Charity donations and scholarship funds","Temple maintenance and education programs","Masonic library membership"],
+    correct: 0,
+    explain: "Brother Alvin Gyles documented that his dues grew from $25/month to nearly $200/month — paid not to charities, but to the clandestine treasury. Every month members had to sell (or personally buy) raffle ticket books at $25 each — one from their Lodge, one from the District, one from the 'Grand Lodge.'",
+    flavor: "Nothing says 'ancient wisdom' like mandatory raffle tickets for a treasury that answers to nobody."
+  },
+  // 3° MM
+  {
+    type: 'legit',
+    q: "What is the correct term for a Mason who has received all three degrees of the Blue Lodge (Entered Apprentice, Fellowcraft, and Master Mason)?",
+    a: ["A Raised Mason","A Perfect Mason","A Sublime Mason","A Grand Mason"],
+    correct: 0,
+    explain: "After receiving the Third Degree, a candidate is said to have been 'raised' to the Sublime Degree of Master Mason. The ceremony is called 'being raised' rather than 'graduated' or 'completed.'",
+    flavor: "Three degrees. Real ones. Not 34 self-awarded ones from a website that accepts all major credit cards."
+  },
+  // 4°
+  {
+    type: 'clandy',
+    q: "According to the Masonic Fraternal Police Department's (very real) website, when was their organization originally founded?",
+    a: ["1100 B.C. by the Knights Templar","1717 A.D. in London","1791 in Boston","1847 at the National Compact"],
+    correct: 0,
+    explain: "The Masonic Fraternal Police Department — three members of which were arrested in California in 2015 — claimed on their official website that their police department was 'created by the Knights Templar back in 1100 B.C.' This predates the Knights Templar by approximately 2,200 years.",
+    flavor: "The Knights Templar were founded around 1119 A.D. But who's counting when you have jurisdiction in 33 states and Mexico?"
+  },
+  // 5°
+  {
+    type: 'legit',
+    q: "Albert Mackey, in 'History of Freemasonry,' defines a 'clandestine' lodge as:",
+    a: ["Men who constitute a lodge and call themselves Freemasons without a Grand Master's approval","Any lodge that meets after midnight","A lodge that doesn't wear white aprons","A lodge that charges dues above $100/year"],
+    correct: 0,
+    explain: "Mackey himself defined clandestine as 'several men that take it upon themselves to establish a lodge and call themselves Freemasons without a Grand Master's approval.' The key issue is always regularity of ORIGIN — not rituals or landmarks alone.",
+    flavor: "You can memorize every word of the ritual, wear a gold-fringed apron, and carry a square and compasses... and still be totally clandestine."
+  },
+  // 6°
+  {
+    type: 'clandy',
+    q: "The Grand Constitutions of 1786 require a new Grand Lodge to be established by how many regular Lodges holding valid charters?",
+    a: ["At least THREE regular lodges with valid charters","One lodge is sufficient","A Grand Lodge can self-constitute","Two lodges and a PayPal account"],
+    correct: 0,
+    explain: "Masonic law requires at least three regular lodges holding valid charters from an existing regular Grand Lodge to form a new Grand Lodge. A body CANNOT self-constitute — the historical exception for the 1717 Premier Grand Lodge does not apply to anyone today.",
+    flavor: "The 1717 'we'll just start one' exception has been used to justify roughly 400 clandestine grand lodges. It applies to zero of them."
+  },
+  // 7°
+  {
+    type: 'trivia',
+    q: "The 'Virtual Grand Lodge' offered Masonic membership entirely online for $99. What was included with this revolutionary initiation?",
+    a: ["A digital certificate and instant membership — no kneeling, no apron, no lodge","A physical apron mailed to your home","A Zoom ceremony with a real Grand Master","A 30-day free trial with unlimited degrees"],
+    correct: 0,
+    explain: "An actual website called the 'Virtual Grand Lodge' sold online Masonic membership for $99. Their philosophy stated that 'the material temple and physical presence' were unnecessary. Tellingly, the welcome page displayed logos for all major credit cards.",
+    flavor: "No silly aprons. No driving to a scruffy building. No rolling up your trouser leg. But they do accept Discover Card."
+  },
+  // 8°
+  {
+    type: 'legit',
+    q: "In regular Freemasonry, what is 'Exclusive Territorial Jurisdiction' (ETJ)?",
+    a: ["One recognized Grand Lodge has primary authority within a defined territory","A degree only worked in certain states","A rule about lodge meeting times","The Grand Master's personal travel schedule"],
+    correct: 0,
+    explain: "ETJ dictates that a single regular Grand Lodge has primary authority within a defined territory. While Prince Hall and Mainstream Grand Lodges now share jurisdiction through mutual recognition treaties, any body operating in a territory without such a treaty is considered an 'invader' and deemed irregular.",
+    flavor: "You can't just declare sovereignty over Texas. Well — you can. But then you're clandestine in Texas, which sounds like a country song."
+  },
+  // 9°
+  {
+    type: 'clandy',
+    q: "Clandestine organizations frequently try to appear legitimate by claiming charters from foreign Grand Lodges. What was suspicious about John G. Jones's claimed charter from the Grand Lodge of Romania?",
+    a: ["He claimed a 1877 charter but the GL of Romania wasn't formed until 1880","Romania doesn't recognize American lodges","The charter was written in English, not Romanian","The Romanian Grand Master's name was misspelled"],
+    correct: 0,
+    explain: "John G. Jones's members claimed a charter from the Grand Lodge of Romania dated 1877 — but the Grand Lodge of Romania was not formed until 1880. It is impossible to receive a charter from an organization that doesn't exist yet, yet this lineage claim persisted for decades.",
+    flavor: "Time travel charters: the clandestine Mason's most powerful tool."
+  },
+  // 10°
+  {
+    type: 'legit',
+    q: "What is the name of the Prince Hall Masonic research organization that maintains a published list of bogus Masonic organizations?",
+    a: ["The Phylaxis Society","The Scottish Rite Research Society","The Masonic Service Association","The Royal Arch Research Foundation"],
+    correct: 0,
+    explain: "The Phylaxis Society, founded by Brother Joseph A. Walkes Jr., serves as the research arm of Prince Hall Affiliated Freemasonry. They maintain the Joseph A. Walkes Jr. Commission on Bogus Masonic Practices and have painstakingly catalogued hundreds of clandestine organizations.",
+    flavor: "In the 1980s, they manually combed through city and state tax records to find fake lodges. They found hundreds. Texas alone had a spectacular collection."
+  },
+  // 11°
+  {
+    type: 'clandy',
+    q: "The Masonic Fraternal Police Department's 'Absolute Supreme Sovereign Grandmaster' showed up to court wearing what distinctive accessory?",
+    a: ["A giant golden chain of Masonic symbols around his shoulders","A three-foot tall top hat with a square and compasses","A full suits of armor with a Knights Templar cross","A fez with rhinestones spelling 'POLICE'"],
+    correct: 0,
+    explain: "David Henry, the self-proclaimed 'Absolute Supreme Sovereign Grandmaster' of the Masonic Fraternal Police Department, appeared at his criminal arraignment wearing a giant golden chain collar of Masonic symbols. CBS News described it as a 'traditional freemason chain collar.' Real Masons described it as... not that.",
+    flavor: "Legal strategy: show up to impersonating-a-police-officer charges in Illuminati Grandmaster regalia. Bold."
+  },
+  // 12°
+  {
+    type: 'legit',
+    q: "What ritual book did the International 'Modern Masons' (a clandestine group) use for their ceremonies — and where could anyone buy it?",
+    a: ["Duncan's Ritual — available on Amazon for under $20","The Scottish Rite Monitor — available only to 32° Masons","The Masonic Manual — distributed only by Grand Lodges","A secret manuscript kept in their archives"],
+    correct: 0,
+    explain: "The clandestine group used Duncan's Ritual, which is publicly available on Amazon for under $20. This is why members who leave clandestine lodges and join regular lodges report having to mentally 'block out' memorized clandestine words — like an alternate version of a song.",
+    flavor: "Two-day shipping. Prime eligible. Your path to the 'Ancient Mysteries' of clandestine Freemasonry."
+  },
+  // 13°
+  {
+    type: 'legit',
+    q: "In legitimate Freemasonry, a 'healing' process refers to:",
+    a: ["Properly investigating and re-affiliating a Mason from a clandestine lodge into a regular lodge","A Masonic ceremony for members who are ill","Resolving disputes between lodges","Reinstating a suspended member's dues"],
+    correct: 0,
+    explain: "When a Brother leaves a clandestine lodge and petitions a regular Prince Hall lodge, he goes through a 'healing' process: a proper investigation, vote, and proficiency test. He must then be re-affiliated with a regular body and conform to all regular Masonic law.",
+    flavor: "A healed Mason starts over from the beginning. Many say the real degree work makes the clandestine version feel like a rehearsal with no script."
+  },
+  // 14°
+  {
+    type: 'clandy',
+    q: "The Masonic Fraternal Police Department claimed jurisdiction in how many US states AND which foreign country?",
+    a: ["33 states and Mexico","All 50 states and Canada","7 states and the UK","22 states and Mexico City only"],
+    correct: 0,
+    explain: "The MFPD claimed jurisdiction in 33 states and Mexico. Their website also claimed 500,000 members in those territories. The number 33 was clearly chosen for its Masonic resonance — the highest degree in the Scottish Rite — rather than any actual legal authority.",
+    flavor: "33 states. Mexico. 3,000 years of history. Zero actual police powers. Incredible efficiency."
+  },
+  // 15°
+  {
+    type: 'legit',
+    q: "When was the first recognized Grand Lodge for Black Freemasons in America — African Lodge No. 459 — chartered, and by whom?",
+    a: ["1784, by the Premier Grand Lodge of England","1847, by the National Compact Grand Lodge","1791, by the Grand Lodge of Massachusetts","1776, by George Washington personally"],
+    correct: 0,
+    explain: "African Lodge No. 459 received its charter from the Premier Grand Lodge of England in 1784, making it the foundation of Prince Hall Freemasonry. Prince Hall himself received the charter after being denied recognition by American lodges of the era.",
+    flavor: "The British gave Prince Hall a charter in 1784. It took many American Grand Lodges until the 1990s-2000s to extend mutual recognition. Progress is slow."
+  },
+  // 16°
+  {
+    type: 'clandy',
+    q: "In Houston, Texas alone, approximately how many Black AF&AM 'Grand Lodges' that style themselves as 'Scottish Rite' exist — all considered clandestine?",
+    a: ["At least 7-8 Grand Lodges","1-2 rogue lodges","Only one large one","No clandestine lodges exist in Houston"],
+    correct: 0,
+    explain: "One researcher who himself left a clandestine lodge (Mt. Sinai Grand Lodge) reported that Houston alone had at least 7-8 Black AF&AM 'Grand Lodges' styling themselves as 'Scottish Rite' — all clandestine, all unrecognized by the Prince Hall Grand Lodge of Texas.",
+    flavor: "In a city with multiple recognized lodges, entrepreneurs apparently decided there was room for seven more grand lodges. The market was not, in fact, underserved."
+  },
+  // 17°
+  {
+    type: 'legit',
+    q: "What is 'regularity of origin' and why is it the MOST important standard for a legitimate Masonic body?",
+    a: ["A lodge must trace its charter lineage back to a recognized Grand Lodge in the British Isles","A lodge must be at least 50 years old","A lodge must have more than 20 members","A lodge must own its own building"],
+    correct: 0,
+    explain: "Regularity of origin means a lodge can produce verifiable lodge charters tracing back through recognized Grand Lodges to the British Isles (England, Ireland, or Scotland). Practicing perfect ritual, displaying the Holy Bible, and following every Landmark means NOTHING without a valid charter chain. A clandestine lodge cannot achieve regularity simply by acting regular.",
+    flavor: "A perfect impersonation is still an impersonation. Clandestine organizations discovered this the hard way."
+  },
+  // 18°
+  {
+    type: 'clandy',
+    q: "Some clandestine groups use the Square and Compasses with the letter 'G' in their logo — but with one subtle addition to differentiate themselves. What is this telltale modification?",
+    a: ["An extra symbol like a key superimposed on the Square and Compasses","The letter 'G' replaced with a dollar sign","A fez hat above the compasses","The compasses are upside down"],
+    correct: 0,
+    explain: "A quick way to spot a clandestine organization's logo is a slight modification to the standard Square and Compasses — such as a key symbol added to the design. To a non-Mason it looks identical; to a Mason it's a clear indicator of an irregular body trying to look legitimate.",
+    flavor: "The 'spot the difference' puzzle of Freemasonry. The difference being, one has actual recognition and one has a very nice logo."
+  },
+  // 19°
+  {
+    type: 'trivia',
+    q: "A past Master of a regular lodge described clandestine Mason members who formed the 'Masonic Police Department' saying they:",
+    a: ["'Watch too much History Channel and get wrapped up in conspiracy theories'","'Are dedicated community servants who simply lack recognition'","'Practice better ritual than most regular lodges'","'Should be given amnesty and recognized immediately'"],
+    correct: 0,
+    explain: "Steve Eberhardt, Past Master of Masonic Lodge 721 in Van Nuys, told reporters: 'There are clandestine groups of Masons and they watch too much History Channel and get wrapped up in conspiracy theories.' He also added that whoever claimed to be a Masonic Police organization was 'full of themselves.'",
+    flavor: "The History Channel has contributed more to clandestine Masonry than any other media institution. Their lawyers have no comment."
+  },
+  // 20°
+  {
+    type: 'legit',
+    q: "What does it mean when a Masonic body is described as 'spurious' (as opposed to merely 'irregular' or 'clandestine')?",
+    a: ["It falsely attributes its origin to a non-existing Masonic source — it's deceitful in nature","It charges higher than average dues","It meets less than once per month","It lacks a physical lodge building"],
+    correct: 0,
+    explain: "A 'spurious' body is one of illegitimate birth that falsely attributes its origin to a non-existing source — it's outwardly similar to a legitimate body but lacks its genuine qualities. Spurious bodies often claim lineage from organizations that never existed or that never granted them a charter.",
+    flavor: "Clandestine, irregular, AND spurious — collect all three! Many organizations manage to achieve all simultaneously."
+  },
+  // 21°
+  {
+    type: 'clandy',
+    q: "What was the creative (and very real) fundraising mechanism used by the International Free and Accepted Modern Masons that members couldn't escape?",
+    a: ["Monthly raffle ticket books that members had to sell or buy themselves","A 33° degree auction every quarter","A required purchase of historical Masonic books","A weekly bingo night at the lodge"],
+    correct: 0,
+    explain: "Members received raffle ticket books every month from three sources — their Lodge, their District, and their 'Grand Lodge' — at $25 per book. Since nobody wanted to bother their acquaintances every single month, members typically bought the tickets themselves. One brother estimated this contributed to his dues reaching nearly $200/month.",
+    flavor: "Technically fraternal fundraising. Technically."
+  },
+  // 22°
+  {
+    type: 'legit',
+    q: "In regular Masonic Blue Lodge, what are the three principal officers of a lodge?",
+    a: ["Worshipful Master, Senior Warden, and Junior Warden","Grand Master, Senior Warden, and Grand Tyler","Senior Deacon, Junior Deacon, and Tyler","High Priest, King, and Scribe"],
+    correct: 0,
+    explain: "The three principal officers of a regular Blue Lodge are the Worshipful Master (who presides from the East), the Senior Warden (stationed in the West), and the Junior Warden (stationed in the South). These three offices trace back to the original 1717 Grand Lodge formation.",
+    flavor: "In a clandestine lodge, the three principal officers are typically: Grand Poobah, Supreme Grand Poobah, and He Who Signs the Raffle Tickets."
+  },
+  // 23°
+  {
+    type: 'clandy',
+    q: "The Masonic Fraternal Police Department's criminal case against its leader David Henry took a dramatic turn when:",
+    a: ["The self-proclaimed 'Absolute Supreme Sovereign Grandmaster' died of a pulmonary embolism — hours after his court appearance","He revealed the true secrets of the Masonic order in open court","The California AG personally vouched for the organization","The Knights Templar posted his bail"],
+    correct: 0,
+    explain: "David Henry, the 47-year-old 'Grandmaster' and 'Chief of Police' of the MFPD, died of a pulmonary embolism on a Monday — hours after appearing in Los Angeles County court. The criminal case against him consequently collapsed, and charges against one co-defendant were also dismissed.",
+    flavor: "The most dramatic exit from a court case in California history. The History Channel presumably took notes."
+  },
+  // 24°
+  {
+    type: 'legit',
+    q: "What is the Volume of Sacred Law (VSL) in Masonic context, and why is it significant?",
+    a: ["Any holy scripture the lodge places on its altar — its presence is a landmark of regular Masonry","The King James Bible exclusively","A book containing Masonic ritual kept secret from non-Masons","The Grand Lodge's official record book"],
+    correct: 0,
+    explain: "The Volume of Sacred Law refers to any sacred scripture appropriate to the religious backgrounds of the members — typically the Bible in Christian-majority areas, but potentially the Quran, Torah, or other scriptures. Its display on the altar is a landmark of regular Masonry; irregular bodies sometimes omit it entirely.",
+    flavor: "Some clandestine bodies omit the VSL entirely. Others open on the Bible and then proceed to charge you $35 in district fees."
+  },
+  // 25°
+  {
+    type: 'clandy',
+    q: "A Los Angeles sexual fetish club called 'Snctm' caused controversy by using what Masonic symbol in their branding — and why couldn't anyone stop them?",
+    a: ["The double-headed eagle of the Scottish Rite — because it's in the public domain","The Square and Compasses — protected by copyright","The All-Seeing Eye — a federal trademark","The Masonic apron design — owned by the Grand Lodge"],
+    correct: 0,
+    explain: "The LA fetish club Snctm used the Scottish Rite's double-headed eagle on their webpage. The reason the Ancient and Accepted Scottish Rite couldn't stop them: nobody can own or trademark words like 'Freemason' or 'Grand Lodge,' nor can they claim specific artwork that has fallen into the public domain.",
+    flavor: "This is perhaps the ultimate indignity for the Ancient and Accepted Scottish Rite. The author of Morals and Dogma would have opinions."
+  },
+  // 26°
+  {
+    type: 'legit',
+    q: "Prince Hall Freemasonry was originally formed because:",
+    a: ["Black men were denied membership in American lodges during the pre-Civil War and Jim Crow era","Prince Hall wanted to create a separate, superior Masonic rite","The British Grand Lodge required separate lodges for colonists","Prince Hall himself was not actually a Mason"],
+    correct: 0,
+    explain: "Prince Hall Freemasonry began when Black men — denied entry to American lodges due to racial exclusion — were initiated by a British Army lodge during the Revolutionary War period and subsequently chartered by the Premier Grand Lodge of England in 1784. It is regular, recognized, and legitimate Freemasonry.",
+    flavor: "American lodges refused entry to Black men, so they got a charter from England instead. America eventually caught up... mostly... in the late 1990s."
+  },
+  // 27°
+  {
+    type: 'clandy',
+    q: "What absurd clandestine body in Texas had a name that began with 'Dozo' and what made MANY Texas clandestine grand lodges easily identifiable?",
+    a: ["They were '4-letter Grand Lodges' — their name abbreviations had four letters like most AF&AM bodies, but with no legitimate lineage","They all met in the same building in Houston","They all used the same Grand Master","They published annual reports with fake UGLE approval seals"],
+    correct: 0,
+    explain: "In the Black community in Texas, many clandestine bodies were referred to as '4-letter Grand Lodges' — they used standard abbreviations like AF&AM but had absolutely no documented lineage back to any recognized Grand Lodge. The list in Texas alone was staggering: St. John's, Alpha, Sunset, Dozo, Universal, Mount Carmel, Mount Sinai, Hiram Tyrar, and many more.",
+    flavor: "Dozo Grand Lodge AF&AM. We simply respect the commitment to naming."
+  },
+  // 28°
+  {
+    type: 'legit',
+    q: "In the Scottish Rite, what is the highest degree conferred, and what is notable about honorary recipients of this degree?",
+    a: ["33° — Inspector General Honorary, conferred on those who have made exceptional contributions to the rite","32° — Sublime Prince of the Royal Secret, the highest earned degree","34° — Grand Poobah, the actual highest degree","33° — automatically awarded to all 32° Masons after 5 years"],
+    correct: 0,
+    explain: "In the Ancient and Accepted Scottish Rite, the 33° (Inspector General Honorary) is the highest degree and is an honor conferred — not earned through progression — upon those who have made exceptional contributions to Masonry and humanity. The 32° (Sublime Prince of the Royal Secret) is the highest degree regularly conferred.",
+    flavor: "The legitimate Scottish Rite stops at 33°. Clandestine bodies frequently push past this, creating the 34th Degree of Unlimited Chutzpah."
+  },
+  // 29°
+  {
+    type: 'clandy',
+    q: "A clandestine group called the 'International Free and Accepted Modern Masons' considered which order to be the 'highest degree' — in a totally unique degree progression?",
+    a: ["The Shrine — which they placed ABOVE the Scottish Rite 32°","The 33° — which they awarded at initiation","The Blue Lodge 3rd Degree — which they considered supreme","The Order of Eastern Star — which served as their final initiation"],
+    correct: 0,
+    explain: "This clandestine group's degree system went: Blue Lodge 3 degrees → Eastern Star degree → Queen of the South → Royal Arch → Scottish Rite → and THEN the Shrine as the highest degree. In regular Masonry, the Shrine is an appendant body, not a degree. This progression is entirely fictional.",
+    flavor: "So you were a 32nd Degree Shriner. That's... not a thing. Beautifully, magnificently not a thing."
+  },
+  // 30°
+  {
+    type: 'legit',
+    q: "What does the Masonic term 'travel' mean when brothers say a Mason 'cannot travel'?",
+    a: ["A Mason from an irregular lodge cannot visit or be recognized by regular lodges worldwide","A Mason cannot attend lodge meetings in other states","A Mason's dues are not current","A Mason has been suspended for unMasonic conduct"],
+    correct: 0,
+    explain: "In Masonry, 'traveling' refers to visiting lodges in other jurisdictions. A Mason from a clandestine or irregular lodge cannot 'travel' — they will not be recognized, vouched for, or admitted to the lodge room by the overwhelming majority of Masonic lodges worldwide. This severely limits their Masonic experience.",
+    flavor: "You can have the finest regalia, the most elaborate ring, and the most detailed raffle ticket book — and still not be able to visit a single regular lodge on earth."
+  },
+  // 31°
+  {
+    type: 'clandy',
+    q: "The MFPD's website boasted a particularly impressive number of grand lodges under their jurisdiction. How many?",
+    a: ["6,887 grand lodges","33 grand lodges","500 grand lodges","1 grand lodge (theirs)"],
+    correct: 0,
+    explain: "The Masonic Fraternal Police Department's website claimed authority over 6,887 grand lodges. For reference, there are approximately 50 recognized mainstream Grand Lodges and 42 recognized Prince Hall Grand Lodges in the United States — totaling around 92. Six thousand eight hundred and eighty-seven was a creative choice.",
+    flavor: "6,887 grand lodges. 33 states. 1,100 B.C. founding date. Three arrests. The math checks out perfectly."
+  },
+  // 32°
+  {
+    type: 'legit',
+    q: "Under Albert Mackey's description, clandestine lodges that take 'money from those who have no idea of the difference between warranted and non-warranted Grand Lodges' were primarily described as what?",
+    a: ["Formed by avaricious Freemasons seeking to hoard riches from members","Ideological dissenters with sincere but misguided beliefs","Political separatists with legitimate grievances","Well-meaning brothers who simply lacked paperwork"],
+    correct: 0,
+    explain: "Macoy's Encyclopedia describes clandestine lodges as 'formed by avaricious Freemasons, who take money from those people who have no idea of the difference between a warranted Regularly Constituted Grand Lodge and one that is not.' The word 'avaricious' — meaning greedy — was chosen deliberately.",
+    flavor: "Greedy was Macoy's word in the 1800s. Some things have not changed."
+  },
+  // 33°
+  {
+    type: 'clandy',
+    q: "If you wanted to join the 'Virtual Grand Lodge' for $99 online, what was the OFFICIAL philosophical justification for skipping an in-person initiation ceremony?",
+    a: ["The 'material temple and physical presence' are unnecessary — the virtual experience is equivalent","Online degrees are faster and therefore more enlightened","The ancient mysteries were always transmitted digitally","Their Grand Master couldn't travel to all 50 states"],
+    correct: 0,
+    explain: "The Virtual Grand Lodge's website stated their belief that 'the material temple and physical presence' was 'certainly the most effective and appropriate' but ultimately unnecessary. For $99, charged to any major credit card, you could skip all that and receive your Masonic credentials via internet connection speed.",
+    flavor: "Masonic tradition: since 1717, a solemn, personal initiation involving ritual, prayer, and obligation. Also since approximately 2010: available on dial-up for $99."
+  },
+  // 34°
+  {
+    type: 'trivia',
+    q: "What TWO American Grand Lodge systems does UGLE (United Grand Lodge of England) recognize as legitimate, representing ALL recognized Freemasonry for Black Americans?",
+    a: ["Mainstream/Regular Grand Lodges AND Prince Hall Affiliated Grand Lodges","National Compact Grand Lodges and Independent Grand Lodges","Universal Grand Lodges and International Modern Masons","Online Grand Lodges and Virtual Supreme Councils"],
+    correct: 0,
+    explain: "UGLE and the world Masonic community recognize exactly two systems in the USA: (1) the Mainstream/Regular Grand Lodges (one per state, tied to the original colonial Grand Lodges) and (2) the Prince Hall Affiliated Grand Lodges (tracing to African Lodge No. 459, chartered by England in 1784). Every other body is clandestine, irregular, or spurious — no matter how impressive their chains of office.",
+    flavor: "Two systems. Recognized worldwide. Everything else is Clandyland. Congratulations — you've reached the 34th Degree."
+  }
+];
+
+// ============================================================
+//  GAME STATE
+// ============================================================
+let state = {
+  playerName: 'Brother Unknown',
+  currentQ: 0,
+  correctCount: 0,
+  streak: 0,
+  answered: false,
+};
+
+// ============================================================
+//  SCREEN MANAGEMENT
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ============================================================
+//  START
+// ============================================================
+function startGame() {
+  const nameInput = document.getElementById('player-name').value.trim();
+  state.playerName = nameInput || 'Brother Unknown';
+  state.currentQ = 0;
+  state.correctCount = 0;
+  state.streak = 0;
+  state.answered = false;
+
+  buildBoard();
+  updateSidebar();
+  showScreen('game-screen');
+  loadQuestion();
+}
+
+// ============================================================
+//  BOARD
+// ============================================================
+function buildBoard() {
+  const container = document.getElementById('degree-path');
+  container.innerHTML = '';
+
+  // Layout: rows of cells, snake pattern
+  // 34 degrees, 4 per row = 9 rows (last row has 2)
+  const perRow = 4;
+  const rows = [];
+  for (let i = 0; i < DEGREES.length; i += perRow) {
+    rows.push(DEGREES.slice(i, i + perRow));
+  }
+
+  rows.forEach((row, rowIdx) => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'degree-row' + (rowIdx % 2 === 1 ? ' reverse' : '');
+
+    row.forEach(deg => {
+      const cell = document.createElement('div');
+      cell.className = 'degree-cell';
+      cell.id = `cell-${deg.num}`;
+      cell.innerHTML = `<div class="deg-num">${deg.num}°</div><div class="deg-name">${deg.name}</div>`;
+      rowEl.appendChild(cell);
+    });
+
+    container.appendChild(rowEl);
+  });
+
+  updateBoard();
+}
+
+function updateBoard() {
+  DEGREES.forEach((deg, i) => {
+    const cell = document.getElementById(`cell-${deg.num}`);
+    if (!cell) return;
+    cell.classList.remove('completed', 'current');
+    cell.querySelector('.player-token') && cell.querySelector('.player-token').remove();
+
+    if (i < state.currentQ) {
+      cell.classList.add('completed');
+    } else if (i === state.currentQ) {
+      cell.classList.add('current');
+      const token = document.createElement('div');
+      token.className = 'player-token';
+      token.textContent = '👁️';
+      cell.appendChild(token);
+    }
+  });
+}
+
+// ============================================================
+//  SIDEBAR
+// ============================================================
+function updateSidebar() {
+  document.getElementById('sb-name').textContent = state.playerName;
+  document.getElementById('sb-correct').textContent = state.correctCount;
+  document.getElementById('sb-streak').textContent = state.streak;
+
+  const deg = DEGREES[state.currentQ] || DEGREES[DEGREES.length - 1];
+  document.getElementById('current-deg-name').textContent = `${deg.num}° — ${deg.name}`;
+
+  const pct = Math.round((state.currentQ / DEGREES.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${state.currentQ} / 34°`;
+}
+
+// ============================================================
+//  QUESTION
+// ============================================================
+function loadQuestion() {
+  if (state.currentQ >= QUESTIONS.length) {
+    showVictory();
+    return;
+  }
+
+  const q = QUESTIONS[state.currentQ];
+  const deg = DEGREES[state.currentQ];
+  state.answered = false;
+
+  // Header
+  document.getElementById('q-degree-num').textContent = deg.num;
+  document.getElementById('q-degree-name').textContent = deg.name;
+
+  const badge = document.getElementById('q-type-badge');
+  if (q.type === 'legit') {
+    badge.className = 'question-type-badge type-legit';
+    badge.textContent = '✓ LEGITIMATE MASONRY';
+  } else if (q.type === 'clandy') {
+    badge.className = 'question-type-badge type-clandy';
+    badge.textContent = '⚠ CLANDYLAND CHRONICLES';
+  } else {
+    badge.className = 'question-type-badge type-trivia';
+    badge.textContent = '⧫ MASONIC TRIVIA';
+  }
+
+  document.getElementById('question-text').textContent = q.q;
+
+  // Answers
+  const grid = document.getElementById('answers-grid');
+  grid.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.a.forEach((ans, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="answer-letter">${letters[i]}.</span>${ans}`;
+    btn.onclick = () => selectAnswer(i, btn);
+    grid.appendChild(btn);
+  });
+
+  // Hide result
+  document.getElementById('result-panel').classList.remove('show');
+  updateBoard();
+  updateSidebar();
+}
+
+function selectAnswer(idx, btn) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const q = QUESTIONS[state.currentQ];
+  const allBtns = document.querySelectorAll('.answer-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const isCorrect = idx === q.correct;
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    state.correctCount++;
+    state.streak++;
+    if (state.streak >= 3) showToast(`🔥 ${state.streak} in a row, Brother!`);
+  } else {
+    btn.classList.add('wrong');
+    allBtns[q.correct].classList.add('correct');
+    state.streak = 0;
+  }
+
+  // Result panel
+  const rp = document.getElementById('result-panel');
+  const verdict = document.getElementById('result-verdict');
+  const expl = document.getElementById('result-explanation');
+  const flavor = document.getElementById('result-flavor');
+
+  if (isCorrect) {
+    verdict.className = 'result-verdict correct-verdict';
+    verdict.textContent = '✓ Correctly Received the Light!';
+  } else {
+    verdict.className = 'result-verdict wrong-verdict';
+    verdict.textContent = '✗ Returned to Darkness...';
+  }
+
+  expl.textContent = q.explain;
+  flavor.textContent = '⧫ ' + q.flavor;
+  rp.classList.add('show');
+
+  updateSidebar();
+}
+
+function nextQuestion() {
+  state.currentQ++;
+  if (state.currentQ >= QUESTIONS.length) {
+    showVictory();
+  } else {
+    loadQuestion();
+  }
+}
+
+// ============================================================
+//  VICTORY
+// ============================================================
+function showVictory() {
+  const lastDeg = DEGREES[DEGREES.length - 1];
+  const pct = Math.round((state.correctCount / QUESTIONS.length) * 100);
+
+  document.getElementById('victory-degree-name').textContent =
+    `34° — ${lastDeg.name}`;
+
+  let rank;
+  if (pct >= 90) rank = "Sovereign Grand Inspector-General of Actually Knowing Things";
+  else if (pct >= 70) rank = "Knight of the Partially Enlightened";
+  else if (pct >= 50) rank = "Fellowcraft of Acceptable Guessing";
+  else rank = "Entered Apprentice of Blissful Clandestine Ignorance";
+
+  document.getElementById('victory-cert').innerHTML = `
+    <strong style="font-family:'Cinzel',serif;color:var(--gold);">THIS CERTIFIES THAT</strong><br><br>
+    <em style="font-size:1.2rem;color:var(--parchment);">${state.playerName}</em><br><br>
+    having traversed all 34° of the Grand Clandy Rite — from the humble Entered Apprentice of Alleged Antiquity to the 
+    sublime Grand Exalted Poobah of Perpetual Confusion — is hereby proclaimed:<br><br>
+    <strong style="color:var(--gold);">${rank}</strong><br><br>
+    <span style="font-size:0.85rem;color:var(--gold-dark);">This certificate is recognized by no Grand Lodge anywhere on Earth.<br>It is, by definition, clandestine.</span>
+  `;
+
+  document.getElementById('v-correct').textContent = state.correctCount;
+  document.getElementById('v-total').textContent = QUESTIONS.length;
+  document.getElementById('v-pct').textContent = pct + '%';
+
+  showScreen('victory-screen');
+}
+
+// ============================================================
+//  RESTART
+// ============================================================
+function restartGame() {
+  showScreen('title-screen');
+}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Allow Enter key on name input
+document.getElementById('player-name').addEventListener('keypress', e => {
+  if (e.key === 'Enter') startGame();
+});
+</script>
+</body>
+</html>
