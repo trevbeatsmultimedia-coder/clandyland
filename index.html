@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clandyland</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0A0A0F;
+  color: #F5E8C0;
+  font-family: Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+.container { max-width: 480px; width: 100%; }
+img {
+  max-width: 260px;
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid #8B6914;
+  box-shadow: 0 0 40px rgba(201,168,76,0.4);
+  margin-bottom: 28px;
+}
+h1 {
+  font-family: 'Palatino Linotype', Palatino, serif;
+  font-size: 2.2rem;
+  color: #F0D080;
+  text-shadow: 0 0 20px rgba(201,168,76,0.6);
+  margin-bottom: 8px;
+}
+.divider {
+  display: flex; align-items: center; gap: 8px;
+  margin: 16px auto; max-width: 300px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 0.5px; background: #8B6914;
+}
+.divider span { color: #C9A84C; font-size: 0.6rem; }
+p { color: #D4C08A; line-height: 1.7; font-size: 1rem; margin-bottom: 12px; }
+.notice { font-style: italic; color: #8B6914; font-size: 0.9rem; margin-bottom: 28px; }
+a.app-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #8B6914, #C9A84C, #8B6914);
+  color: #0A0A0F;
+  font-family: 'Palatino Linotype', Palatino, serif;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 16px 36px;
+  border-radius: 4px;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  transition: opacity 0.2s;
+}
+a.app-btn:hover { opacity: 0.85; }
+.footer { margin-top: 32px; font-size: 0.75rem; color: #8B6914; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="container">
+  <img src="IMG_4966.PNG" alt="Clandyland" onerror="this.style.display='none'">
+  <h1>CLANDYLAND</h1>
+  <p style="font-style:italic;color:#C9A84C;font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:16px;">The Most Secret Game in the World</p>
+  <div class="divider"><span>◆</span></div>
+  <p class="notice">The web version of Clandyland is no longer available.</p>
+  <p>Clandyland is now exclusively available as an iOS app — with all 346 questions, both the Masonic and Eastern Star paths, collar jewel awards, and save & resume.</p>
+  <div class="divider"><span>◆</span></div>
+  <a class="app-btn" href="https://apps.apple.com/us/app/clandyland/id6761064450" target="_blank">⧫ DOWNLOAD ON THE APP STORE ⧫</a>
+  <p class="footer">Available on iPhone & iPad · $0.99 · No ads · No subscriptions</p>
+</div>
+</body>
+</html>
